@@ -6,7 +6,8 @@
   "mixins": [
     "AnvilMenuMixin",
     "AnvilScreenMixin",
-    "ExperienceOrbMixin"
+    "ExperienceOrbMixin",
+    "ItemStackMixin"
   ],
   "client": [
   ],
