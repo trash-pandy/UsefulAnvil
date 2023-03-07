@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "usefulanvil",
+  "version": "${version}",
+  "name": "Useful Anvil",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/trash-pandy/UsefulAnvil"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/usefulanvil/icon.png",
+  "environment": "*",
+  "mixins": [
+    "usefulanvil.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.17",
+    "minecraft": "1.19.2"
+  }
+}
