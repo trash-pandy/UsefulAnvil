@@ -29,10 +29,10 @@ public class ItemStackMixin {
                             var mended_health = (double) tag.getInt("mended_health");
                             var efficacy = 1.0 - mended_health / (item.getMaxDamage() * 3);
                             ((MutableComponent) component)
-                                    .append(String.format(" (%d%%)", (int) Math.ceil(efficacy * 100)));
+                                .append(String.format(" (%d%%)", (int) Math.ceil(efficacy * 100)));
                         } else {
                             ((MutableComponent) component)
-                                    .append(" (100%)");
+                                .append(" (100%)");
                         }
                     }
                 }

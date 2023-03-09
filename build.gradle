@@ -1,10 +1,19 @@
 plugins {
-    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'fabric-loom' version '1.1-SNAPSHOT'
     id 'maven-publish'
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
 }
 
 version = project.mod_version
 group = project.maven_group
+
+idea {
+    module {
+        settings {
+            packagePrefix["generated"] = "it.trashband.usefulanvil"
+        }
+    }
+}
 
 repositories {
     // Add repositories to retrieve artifacts from in here.
@@ -12,6 +21,19 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+
+    maven { url 'https://maven.wispforest.io' }
 }
 
 dependencies {
@@ -21,7 +43,10 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    //modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    annotationProcessor modImplementation("io.wispforest:owo-lib:0.9.3+1.19")
+    include("io.wispforest:owo-sentinel:0.9.3+1.19")
+    modLocalRuntime("maven.modrinth:modmenu:4.1.2")
 }
 
 processResources {
@@ -59,7 +84,7 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
+        rename { "${it}_${project.archivesBaseName}" }
     }
 }
 

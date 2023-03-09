@@ -1,0 +1,11 @@
+{
+  "text.config.usefulanvil-config.title": "Useful Anvil",
+  "text.config.usefulanvil-config.option.displayEfficacy": "Display Efficacy",
+  "text.config.usefulanvil-config.option.displayEfficacy.tooltip": "Displays the percentage of the mending ability left",
+  "text.config.usefulanvil-config.option.mendingDecayStyle": "Mending Decay Style",
+  "text.config.usefulanvil-config.option.mendingDecayStyle.value.linear": "Linear",
+  "text.config.usefulanvil-config.option.mendingDecayStyle.value.stop_at_end": "Stop at end",
+  "text.config.usefulanvil-config.option.mendingDecayStyle.tooltip": "How mending works in relation to this mod\n    Linear: Mending slowly stops working\n    Stop at end: Mending stops working when the efficacy reaches 0%",
+  "text.config.usefulanvil-config.option.repairsBeforeBreak": "Repairs Before Breaking",
+  "text.config.usefulanvil-config.option.repairsBeforeBreak.tooltip": "How many times mending can fully repair an item before no longer working"
+}

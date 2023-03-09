@@ -8,6 +8,17 @@
   "contact": {
     "repo": "https://github.com/trash-pandy/UsefulAnvil"
   },
+  "entrypoints": {
+    "main": [
+      "it.trashband.usefulanvil.UsefulAnvil"
+    ],
+    "client": [
+      "it.trashband.usefulanvil.UsefulAnvilClient"
+    ],
+    "server": [
+      "it.trashband.usefulanvil.UsefulAnvilServer"
+    ]
+  },
   "license": "Apache-2.0",
   "icon": "assets/usefulanvil/icon.png",
   "environment": "*",
@@ -16,6 +27,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.14.17",
-    "minecraft": "1.19.2"
+    "fabric-api": ">=0.75.1+1.19.2",
+    "minecraft": ">=1.19",
+    "owo-lib": ">=0.8.5"
   }
 }
