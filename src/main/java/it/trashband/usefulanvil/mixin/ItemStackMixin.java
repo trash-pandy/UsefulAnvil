@@ -1,9 +1,11 @@
 package it.trashband.usefulanvil.mixin;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +18,7 @@ import java.util.List;
 @Mixin(ItemStack.class)
 public class ItemStackMixin {
     @Inject(method = "getTooltipLines", at = @At("RETURN"))
-    public void ItemStackAppendEnchantmentNames(Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir) {
+    public void ItemStackAppendEnchantmentNames(Item.TooltipContext tooltipContext, Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir) {
         var item = (ItemStack) (Object) this;
         var list = cir.getReturnValue();
         for (Component component : list) {
@@ -24,12 +26,16 @@ public class ItemStackMixin {
                 var contents = component.getContents();
                 if (contents instanceof TranslatableContents) {
                     if (((TranslatableContents) contents).getKey().equals("enchantment.minecraft.mending")) {
-                        var tag = item.getOrCreateTagElement("it.trashband.usefulanvil");
-                        if (tag.contains("mended_health")) {
-                            var mended_health = (double) tag.getInt("mended_health");
-                            var efficacy = 1.0 - mended_health / (item.getMaxDamage() * 3);
-                            ((MutableComponent) component)
-                                .append(String.format(" (%d%%)", (int) Math.ceil(efficacy * 100)));
+                        var data = item.get(DataComponents.CUSTOM_DATA);
+                        if (data != null && data.contains("it.trashband.usefulanvil")) {
+                            var root = data.copyTag();
+                            var tag = root.getCompound("it.trashband.usefulanvil");
+                            if (tag.contains("mended_health")) {
+                                var mended_health = (double) tag.getInt("mended_health");
+                                var efficacy = 1.0 - mended_health / (item.getMaxDamage() * 3);
+                                ((MutableComponent) component)
+                                    .append(String.format(" (%d%%)", (int) Math.ceil(efficacy * 100)));
+                            }
                         } else {
                             ((MutableComponent) component)
                                 .append(" (100%)");

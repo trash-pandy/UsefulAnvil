@@ -1,11 +1,17 @@
 package it.trashband.usefulanvil.mixin;
 
+import com.mojang.serialization.*;
 import it.trashband.usefulanvil.UsefulAnvil;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import java.util.stream.Stream;
 
 @Mixin(ExperienceOrb.class)
 public class ExperienceOrbMixin {
@@ -14,7 +20,13 @@ public class ExperienceOrbMixin {
         var item_damage = item.getDamageValue();
         var max_damage = item.getMaxDamage();
         var repair_amount_was = item_damage - i;
-        var tag = item.getOrCreateTagElement("it.trashband.usefulanvil");
+        var data = item.get(DataComponents.CUSTOM_DATA);
+        var root = new CompoundTag();
+        var tag = new CompoundTag();
+        if (data != null && data.contains("it.trashband.usefulanvil")) {
+            root = data.copyTag();
+            tag = root.getCompound("it.trashband.usefulanvil");
+        }
         var current_mended_health = tag.getInt("mended_health");
 
         int repair_amount = 0;
@@ -38,6 +50,8 @@ public class ExperienceOrbMixin {
         repair_amount = Math.min(Math.min(repair_amount, max_mended_health - current_mended_health - repair_amount), item_damage);
         // save total mended health
         tag.putInt("mended_health", current_mended_health + repair_amount);
+        root.put("it.trashband.usefulanvil", tag);
+        item.set(DataComponents.CUSTOM_DATA, CustomData.of(root));
         // repair item
         item.setDamageValue(Math.max(item_damage - repair_amount, 0));
     }

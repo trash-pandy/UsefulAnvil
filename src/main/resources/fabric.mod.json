@@ -26,9 +26,9 @@
     "usefulanvil.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.17",
-    "fabric-api": ">=0.75.1+1.19.2",
-    "minecraft": ">=1.19",
-    "owo-lib": ">=0.8.5"
+    "fabricloader": ">=0.15.11",
+    "fabric-api": ">=0.99.4+1.20.6",
+    "minecraft": ">=1.20.6",
+    "owo-lib": ">=0.12.8"
   }
 }
